@@ -1,14 +1,14 @@
-const { DataTypes } = require("sequelize");
 const db = require("./db");
 const bcrypt = require("bcrypt");
+import { DataTypes } from "sequelize";
 
-const polls = db.define("polls",){
-pollsID{
-    type:DataTypes.intger,
-},
+const polls = db.define("polls", {
+  pollsID: {
+    type: DataTypes.integer,
+    const: DataTypes.integer,
+  },
 
-Title{
-   type: DataTypes.STRING, 
-}
-
-}
+  title: {
+    type: DataTypes.STRING,
+  },
+});

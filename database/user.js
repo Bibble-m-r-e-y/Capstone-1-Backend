@@ -11,6 +11,7 @@ const User = db.define("user", {
       len: [3, 20],
     },
   },
+  
   email: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -28,6 +29,8 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+
+
 });
 
 // Instance method to check password
