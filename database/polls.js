@@ -1,6 +1,7 @@
 const db = require("./db");
 const bcrypt = require("bcrypt");
 import { DataTypes } from "sequelize";
+const pg = require("pg");
 
 const polls = db.define("polls", {
   pollsID: {
@@ -10,5 +11,6 @@ const polls = db.define("polls", {
 
   title: {
     type: DataTypes.STRING,
+    allowNull: false, //has to filled out
   },
 });
