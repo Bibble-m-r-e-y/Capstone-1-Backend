@@ -13,4 +13,23 @@ const polls = db.define("polls", {
     type: DataTypes.STRING,
     allowNull: false, //has to filled out
   },
+
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+
+  options: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
+  status: {
+    type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
+  },
+
+  endTimeDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
 });
