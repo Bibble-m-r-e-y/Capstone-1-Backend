@@ -30,7 +30,8 @@ const polls = db.define("polls", {
 
   status: {
     type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
-  },
+    defaultValue:"draft"
+},
 
   endTimeDate: {
     type: DataTypes.DATE,
@@ -43,6 +44,7 @@ const polls = db.define("polls", {
 
   sumOfVotes: {
     type: DataTypes.integer,
+    defaultValue: 0,
   },
 
 });
