@@ -3,12 +3,18 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 
 const User = db.define("user", {
-  username: {
+    firstname: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
-      len: [3, 20],
+      len: [2, 20],
+    },
+  },  
+  lastname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [2, 20],
     },
   },
   email: {
