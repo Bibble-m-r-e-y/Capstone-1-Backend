@@ -1,18 +1,11 @@
 const db = require("./db");
 const bcrypt = require("bcrypt");
-import { DataTypes } from "sequelize";
+//import { DataTypes } from "sequelize";
+const { DataTypes } = require("sequelize");
 const pg = require("pg");
-const user = reqire("./user");
+const { User } = require("./index");
 
-Polls.hasOne(user);
-Polls.belongToMany(user, { through: ballotSubmissions }); //through the asstion many to many creates a conjoint table
-
-
-const polls = db.define("polls", {
-  pollsID: {
-    type: DataTypes.integer,
-  },
-
+const Poll = db.define("poll", {
   title: {
     type: DataTypes.STRING,
     allowNull: false, //has to filled out
@@ -24,15 +17,14 @@ const polls = db.define("polls", {
   },
 
   options: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: false,
   },
 
   status: {
     type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
-    defaultValue:"draft"
-},
-
+    defaultValue: "draft",
+  },
   endTimeDate: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -43,10 +35,9 @@ const polls = db.define("polls", {
   },
 
   sumOfVotes: {
-    type: DataTypes.integer,
+    type: DataTypes.INTEGER,
     defaultValue: 0,
   },
-
 });
 
-module.exports = polls;
+module.exports = Poll;
