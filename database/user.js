@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("./db");
 const bcrypt = require("bcrypt");
+const user = reqire("./user");
 
 const User = db.define("user", {
     firstname: {
@@ -17,6 +18,7 @@ const User = db.define("user", {
       len: [2, 20],
     },
   },
+
   email: {
     type: DataTypes.STRING,
     allowNull: true,
