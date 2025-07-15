@@ -4,9 +4,8 @@ import { DataTypes } from "sequelize";
 const pg = require("pg");
 const user = reqire("./user");
 
-Polls.hasOne(user);
+Polls.hasOne(user); //one poll can have one user.
 Polls.belongToMany(user, { through: ballotSubmissions }); //through the asstion many to many creates a conjoint table
-
 
 const polls = db.define("polls", {
   pollsID: {
@@ -36,15 +35,6 @@ const polls = db.define("polls", {
     type: DataTypes.DATE,
     allowNull: true,
   },
-
-  filter: {
-    type: DataTypes.STRING,
-  },
-
-  sumOfVotes: {
-    type: DataTypes.integer,
-  },
-
 });
 
 module.exports = polls;
