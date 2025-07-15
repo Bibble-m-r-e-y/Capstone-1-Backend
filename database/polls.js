@@ -7,6 +7,7 @@ const user = reqire("./user");
 Polls.hasOne(user);
 Polls.belongToMany(user, { through: ballotSubmissions }); //through the asstion many to many creates a conjoint table
 
+
 const polls = db.define("polls", {
   pollsID: {
     type: DataTypes.integer,
@@ -35,6 +36,15 @@ const polls = db.define("polls", {
     type: DataTypes.DATE,
     allowNull: true,
   },
+
+  filter: {
+    type: DataTypes.STRING,
+  },
+
+  sumOfVotes: {
+    type: DataTypes.integer,
+  },
+
 });
 
 module.exports = polls;
