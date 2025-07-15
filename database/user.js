@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("./db");
 const bcrypt = require("bcrypt");
+const user = reqire("./user");
 
 const User = db.define("user", {
   username: {
@@ -11,7 +12,7 @@ const User = db.define("user", {
       len: [3, 20],
     },
   },
-  
+
   email: {
     type: DataTypes.STRING,
     allowNull: true,
@@ -29,8 +30,6 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-
-
 });
 
 // Instance method to check password

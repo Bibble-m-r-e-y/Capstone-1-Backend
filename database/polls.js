@@ -2,11 +2,14 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 import { DataTypes } from "sequelize";
 const pg = require("pg");
+const user = reqire("./user");
+
+Polls.hasOne(user);
+Polls.belongToMany(user, { through: ballotSubmissions }); //through the asstion many to many creates a conjoint table
 
 const polls = db.define("polls", {
   pollsID: {
     type: DataTypes.integer,
-    const: DataTypes.integer,
   },
 
   title: {
@@ -33,3 +36,5 @@ const polls = db.define("polls", {
     allowNull: true,
   },
 });
+
+module.exports = polls;
