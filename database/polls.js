@@ -29,12 +29,26 @@ const polls = db.define("polls", {
 
   status: {
     type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
-  },
+    defaultValue:"draft"
+},
 
   endTimeDate: {
     type: DataTypes.DATE,
     allowNull: true,
   },
+<<<<<<< HEAD
+=======
+
+  filter: {
+    type: DataTypes.STRING,
+  },
+
+  sumOfVotes: {
+    type: DataTypes.integer,
+    defaultValue: 0,
+  },
+
+>>>>>>> d62036acde56f30b7f55a2444fe501d7a2b55d41
 });
 
 module.exports = polls;
