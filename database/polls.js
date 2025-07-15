@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 import { DataTypes } from "sequelize";
 const pg = require("pg");
 
+
 const polls = db.define("polls", {
   pollsID: {
     type: DataTypes.integer,
@@ -32,4 +33,13 @@ const polls = db.define("polls", {
     type: DataTypes.DATE,
     allowNull: true,
   },
+
+  filter: {
+    type: DataTypes.STRING,
+  },
+
+  sumOfVotes: {
+    type: DataTypes.integer,
+  },
+
 });
