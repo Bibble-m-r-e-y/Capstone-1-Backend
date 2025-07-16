@@ -4,10 +4,6 @@ const bcrypt = require("bcrypt");
 const pg = require("pg");
 const { Poll } = require("./index");
 const { ballotSubmissions } = require("./index");
-// const vote = require("./vote");
-
-// User.hasMany(Poll, { through: ballotSubmissions });
-// User.hasMany(vote, { through: ballotSubmissions }); //through the asstion many to many creates a conjoint table
 
 const User = db.define("user", {
   firstname: {

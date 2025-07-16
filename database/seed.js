@@ -1,5 +1,7 @@
 const db = require("./db");
 const { User } = require("./index");
+const { Poll } = require("./index");
+const { ballotSubmissions } = require("./index");
 
 const seed = async () => {
   try {

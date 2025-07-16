@@ -4,6 +4,7 @@ const User = require("./user");
 const ballotSubmissions = require("./ballotSubmissons");
 
 User.hasMany(Poll);
+Poll.belongsTo(User);
 Poll.belongsTo(User, { through: ballotSubmissions });
 
 module.exports = {

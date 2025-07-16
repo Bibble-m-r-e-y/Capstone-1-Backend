@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { DataTypes } = require("sequelize");
 const pg = require("pg");
 const { User } = require("./index");
+const { ballotSubmissions } = require("./index");
 
 const Poll = db.define("poll", {
   title: {
@@ -24,7 +25,7 @@ const Poll = db.define("poll", {
     type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
     defaultValue: "draft",
   },
-  endTimeDate: {
+  endDate: {
     type: DataTypes.DATE,
     allowNull: true,
   },
