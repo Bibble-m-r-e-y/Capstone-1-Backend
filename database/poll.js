@@ -1,6 +1,5 @@
 const db = require("./db");
 const bcrypt = require("bcrypt");
-//import { DataTypes } from "sequelize";
 const { DataTypes } = require("sequelize");
 const pg = require("pg");
 const { User } = require("./index");

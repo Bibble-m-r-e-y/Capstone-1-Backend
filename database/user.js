@@ -3,6 +3,7 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 const pg = require("pg");
 const { Poll } = require("./index");
+const { ballotSubmissions } = require("./index");
 // const vote = require("./vote");
 
 // User.hasMany(Poll, { through: ballotSubmissions });
