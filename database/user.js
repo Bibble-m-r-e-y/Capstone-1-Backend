@@ -3,7 +3,7 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 const pg = require("pg");
 const { Poll } = require("./index");
-const { ballotSubmissions } = require("./index");
+const { BallotSubmission } = require("./index");
 
 const User = db.define("user", {
   firstname: {
@@ -20,11 +20,11 @@ const User = db.define("user", {
       len: [2, 20],
     },
   },
-  age18plus: {
-    type: DataTypes.BOOLEAN,
-  },
+  // age18plus: {
+  //   type: DataTypes.BOOLEAN,
+  // },
   status: {
-    type: DataTypes.ENUM("normal", "admin", "disabled"),
+    type: DataTypes.ENUM("normal", "admin", "disabled"), //no disabled, guest will be 0, integer
     allowNull: false,
     defaultValue: "normal",
   },
@@ -46,7 +46,7 @@ const User = db.define("user", {
     allowNull: true,
   },
   profileimage: {
-    type: DataTypes.STRING,
+    type: DataTypes.BLOB,
     allowNull: false,
   },
 });

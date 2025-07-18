@@ -1,10 +1,10 @@
-const user = require("./index");
+const User = require("./index");
 const Poll = require("./index");
 const db = require("./db");
 const bcrypt = require("bcrypt");
 const { DataTypes } = require("sequelize");
 
-const ballotSubmissions = db.define("ballotSubmissions", {
+const BallotSubmission = db.define("ballotSubmission", {
   ranking: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },
@@ -12,6 +12,10 @@ const ballotSubmissions = db.define("ballotSubmissions", {
   status: {
     type: DataTypes.ENUM("draft", "submitted"),
   },
+
+  userId: {
+    type: DataTypes.INTEGER,
+  },
 });
 
-module.exports = ballotSubmissions;
+module.exports = BallotSubmission;

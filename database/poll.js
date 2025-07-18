@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const { DataTypes } = require("sequelize");
 const pg = require("pg");
 const { User } = require("./index");
-const { ballotSubmissions } = require("./index");
+const { BallotSubmission } = require("./index");
 
 const Poll = db.define("poll", {
   title: {
@@ -30,8 +30,9 @@ const Poll = db.define("poll", {
     allowNull: true,
   },
 
-  filter: {
-    type: DataTypes.STRING,
+  opentoAuthorized: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 
   sumOfVotes: {
