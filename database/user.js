@@ -1,15 +1,32 @@
 const { DataTypes } = require("sequelize");
 const db = require("./db");
 const bcrypt = require("bcrypt");
+const pg = require("pg");
+const { Poll } = require("./index");
+const { BallotSubmission } = require("./index");
 
 const User = db.define("user", {
-  username: {
+  firstname: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
-      len: [3, 20],
+      len: [2, 20],
     },
+  },
+  lastname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [2, 20],
+    },
+  },
+  // age18plus: {
+  //   type: DataTypes.BOOLEAN,
+  // },
+  status: {
+    type: DataTypes.ENUM("normal", "admin", "disabled"), //no disabled, guest will be 0, integer
+    allowNull: false,
+    defaultValue: "normal",
   },
   email: {
     type: DataTypes.STRING,
@@ -27,6 +44,10 @@ const User = db.define("user", {
   passwordHash: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  profileimage: {
+    type: DataTypes.BLOB,
+    allowNull: false,
   },
 });
 
