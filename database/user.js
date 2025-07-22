@@ -3,17 +3,28 @@ const db = require("./db");
 const bcrypt = require("bcrypt");
 
 const User = db.define("user", {
-  username: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
-      len: [3, 20],
+      len: [2, 20],
     },
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [2, 20],
+    },
+  },
+  status: {
+    type: DataTypes.ENUM("normal", "admin", "disabled"),
+    allowNull: false,
+    defaultValue: "normal",
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
     unique: true,
     validate: {
       isEmail: true,
@@ -27,6 +38,11 @@ const User = db.define("user", {
   passwordHash: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  profileImage: {
+    type: DataTypes.BLOB,
+    allowNull: false,
+    defaultValue: "https://picsum.photos/150/150",
   },
 });
 
