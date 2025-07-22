@@ -1,14 +1,10 @@
 const db = require("./db");
-const bcrypt = require("bcrypt");
 const { DataTypes } = require("sequelize");
-const pg = require("pg");
-const { User } = require("./index");
-const { BallotSubmission } = require("./index");
 
 const Poll = db.define("poll", {
   title: {
     type: DataTypes.STRING,
-    allowNull: false, //has to filled out
+    allowNull: false,
   },
 
   description: {
@@ -22,7 +18,7 @@ const Poll = db.define("poll", {
   },
 
   status: {
-    type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
+    type: DataTypes.ENUM("draft", "published", "ended", "disabled", "null"),
     defaultValue: "draft",
   },
   endDate: {
@@ -30,9 +26,9 @@ const Poll = db.define("poll", {
     allowNull: true,
   },
 
-  opentoAuthorized: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+  filter: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    allowNull: false,
   },
 
   sumOfVotes: {

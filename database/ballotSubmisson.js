@@ -1,7 +1,4 @@
-const User = require("./index");
-const Poll = require("./index");
 const db = require("./db");
-const bcrypt = require("bcrypt");
 const { DataTypes } = require("sequelize");
 
 const BallotSubmission = db.define("ballotSubmission", {
@@ -11,10 +8,8 @@ const BallotSubmission = db.define("ballotSubmission", {
 
   status: {
     type: DataTypes.ENUM("draft", "submitted"),
-  },
-
-  userId: {
-    type: DataTypes.INTEGER,
+    defaultValue: "draft",
+    allowNull: false,
   },
 });
 

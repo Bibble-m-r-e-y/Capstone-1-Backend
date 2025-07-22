@@ -1,36 +1,30 @@
 const { DataTypes } = require("sequelize");
 const db = require("./db");
 const bcrypt = require("bcrypt");
-const pg = require("pg");
-const { Poll } = require("./index");
-const { BallotSubmission } = require("./index");
 
 const User = db.define("user", {
-  firstname: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [2, 20],
     },
   },
-  lastname: {
+  lastName: {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
       len: [2, 20],
     },
   },
-  // age18plus: {
-  //   type: DataTypes.BOOLEAN,
-  // },
   status: {
-    type: DataTypes.ENUM("normal", "admin", "disabled"), //no disabled, guest will be 0, integer
+    type: DataTypes.ENUM("normal", "admin", "disabled"),
     allowNull: false,
     defaultValue: "normal",
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
     unique: true,
     validate: {
       isEmail: true,
@@ -45,9 +39,15 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  profileimage: {
+  profileImage: {
     type: DataTypes.BLOB,
     allowNull: false,
+    defaultValue: "https://picsum.photos/150/150",
+    // defaultValue: async () => {
+    //   const response = await fetch("https://picsum.photos/150/150");
+    //   const image = await response.image();
+    //   return image;
+    // },
   },
 });
 
