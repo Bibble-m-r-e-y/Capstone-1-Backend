@@ -16,7 +16,7 @@ const seed = async () => {
         passwordHash: User.hashPassword("admin123"),
         profileImage: Buffer.from(
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMBgJ9hOxoAAAAASUVORK5CYII=",
-          "base64"
+          "base64",
         ),
       },
 
@@ -38,7 +38,7 @@ const seed = async () => {
         passwordHash: User.hashPassword("secure789"),
         profileImage: Buffer.from(
           "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0dhZglEAAwEAOw==",
-          "base64"
+          "base64",
         ),
       },
       {

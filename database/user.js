@@ -43,11 +43,6 @@ const User = db.define("user", {
     type: DataTypes.BLOB,
     allowNull: false,
     defaultValue: "https://picsum.photos/150/150",
-    // defaultValue: async () => {
-    //   const response = await fetch("https://picsum.photos/150/150");
-    //   const image = await response.image();
-    //   return image;
-    // },
   },
 });
 

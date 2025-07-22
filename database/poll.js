@@ -18,8 +18,9 @@ const Poll = db.define("poll", {
   },
 
   status: {
-    type: DataTypes.ENUM("draft", "published", "ended", "disabled", "null"),
+    type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
     defaultValue: "draft",
+    allowNull: false,
   },
   endDate: {
     type: DataTypes.DATE,
