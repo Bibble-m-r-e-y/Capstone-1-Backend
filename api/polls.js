@@ -3,7 +3,6 @@ const router = express.Router();
 const { User } = require("../database");
 const { polls, User } = reqire("../database");
 
-
 //GRAB THE WHOLE POLL
 router.get("/", async (req, res) => {
   try {
@@ -25,23 +24,22 @@ router.delete("/polls/id", async (req, res) => {
   }
 });
 
-
 //update polls?
 router.patch("/", async (req, res) => {
   try {
     const id = req.params.id;
     const pO = await poll.findByPk(Id);
-    await pO.options
+    await pO.options;
   } catch (err) {
     console.log(err, "error");
   }
 });
- //create a new poll 
-router.post("/polls/id", async(req,res)=> { 
-try{
-const update = new poll
-}catch(err) {
-console.log("error")
-}
-
-})
+//create a new poll
+router.post("/polls/id", async (req, res) => {
+  try {
+    const update = await new poll(req.body); //make a new poll based of the info
+    await poll.save();
+  } catch (err) {
+    console.log("error");
+  }
+});
