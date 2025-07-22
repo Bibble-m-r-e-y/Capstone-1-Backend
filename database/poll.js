@@ -1,18 +1,10 @@
 const db = require("./db");
-const bcrypt = require("bcrypt");
-import { DataTypes } from "sequelize";
-const pg = require("pg");
+const { DataTypes } = require("sequelize");
 
-
-const polls = db.define("polls", {
-  pollsID: {
-    type: DataTypes.integer,
-    const: DataTypes.integer,
-  },
-
+const Poll = db.define("poll", {
   title: {
     type: DataTypes.STRING,
-    allowNull: false, //has to filled out
+    allowNull: false,
   },
 
   description: {
@@ -21,25 +13,29 @@ const polls = db.define("polls", {
   },
 
   options: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: false,
   },
 
   status: {
     type: DataTypes.ENUM("draft", "published", "ended", "disabled"),
+    defaultValue: "draft",
+    allowNull: false,
   },
-
-  endTimeDate: {
+  endDate: {
     type: DataTypes.DATE,
     allowNull: true,
   },
 
   filter: {
-    type: DataTypes.STRING,
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    allowNull: false,
   },
 
   sumOfVotes: {
-    type: DataTypes.integer,
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
   },
-
 });
+
+module.exports = Poll;
