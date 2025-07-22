@@ -115,9 +115,9 @@ const seed = async () => {
       },
     });
     console.log(`👤 Created ${users.length} users`);
-    console.log(`📋Created${polls.length}polls`);
+    console.log(`📋 Created ${polls.length} polls`);
 
-    console.log("🌱 Seded the database");
+    console.log("🌱 Seeded the database");
   } catch (error) {
     console.error("Error seeding database:", error);
     if (error.message.includes("does not exist")) {
