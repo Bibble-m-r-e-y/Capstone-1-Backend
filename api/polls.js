@@ -35,14 +35,21 @@ router.delete("/:Id", async (req, res) => {
   }
 });
 
-//update polls?
 router.patch("/:id", async (req, res) => {
   const id = Number(req.params.id);
+
   try {
     const pollToPatch = await Poll.findByPk(id);
 
     await pollToPatch.update({
       title: req.body.title,
+    });
+
+    await pollToPatch.update({
+      options: req.body.options,
+    });
+    await pollToPatch.update({
+      description: req.body.description,
     });
 
     await pollToPatch.save();
