@@ -38,19 +38,8 @@ router.delete("/:Id", async (req, res) => {
 //update polls?
 router.patch("/:id", async (req, res) => {
   const id = Number(req.params.id);
-  //const updatedFields = req.body;
-
-  //const up = req.body;
   try {
     const pollToPatch = await Poll.findByPk(id);
-    // const updatedPoll = { ...pollToPatch };
-
-   // if (updatedFields.title !== undefined)
-     // updatedPoll.title = updatedFields.title;
-    // if (updatedFields)
-
-    //if (updatedFields.options !== undefined)
-    //updatedPoll.options = updatedFields.options;
 
     await pollToPatch.update({
       title: req.body.title,
@@ -61,6 +50,29 @@ router.patch("/:id", async (req, res) => {
   } catch (err) {
     res.sendStatus(400);
     console.log(err, "error");
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const storeClientData = req.body;
+    console.log(storeClientData); // the data sent from the client like a form or frontend to the server.
+    const createNewPoll = await Poll.create(storeClientData); // create a new poll and pass on the user info
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err, "this no good");
+    res.sendStatus(404);
+  }
+});
+
+router.get("/", async (req, res) => {
+  try {
+    const getAll = await Poll.findAll();
+    res.status(200).send(getAll);
+  } catch (err) {
+    console.log(err, "this dont work");
+    res.sendStatus(400);
   }
 });
 
