@@ -1,5 +1,12 @@
 # Capstone I Backend
 
+## Exact Dates/Days and Times
+
+- Emmanuel Ruiz - 10 am - 4 pm (M-F) 10 am - 2 pm (Sat) [Flexible weekdays; Rather not Sat/Sun]
+- Yangmei Lu - 10am - 4pm, optional: 4 pm - 12 am (M - F) [Fri morning chores, prefer no weekend]
+- Muhammad Shaikh - 10-8(M-F)pm 12-4 pm (sat-sun) [Flexible weekdays, weekends]
+- Roselyn Marte - (mon-thurs 8am-1pm I have calc 1) but after i am available all day. 1pm-10pm(M-T) 9am-10pm Fri-Sat [I am available everyday even sunday but sunday i tend to have a lot of things to do. If we set up a time in advance I can arrange my schedule]
+
 ## Getting Started
 
 This project uses Express.js to serve up an API server, and Sequelize to connect to a PostgreSQL database. It uses JWTs for authentication with username and password.
