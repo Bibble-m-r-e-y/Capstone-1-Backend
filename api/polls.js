@@ -3,23 +3,30 @@ const router = express.Router();
 const { Poll, User } = require("../database");
 
 //GRAB THE WHOLE POLL
-router.get("/", async (req, res) => {
+//"/:id
+router.get("/:id", async (req, res) => {
+  const pollId = Number(req.params.id); //grab the user id from the url and make into a number
+  console.log(pollId);
   try {
-    const polls = await Poll.findAll(); // promise to grab all the data from the polls table
-    res.status(200).send(polls); //send a suscesfull status if done correctly and send me the info.
+    const polls = await Poll.findByPk(pollId); // promise to grab all the data from the polls table
+    console.log(polls);
+    if (!polls) {
+      return res.sendStatus(404);
+    }
+    res.sendStatus(200); //send a suscesfull status if done correctly and send me the info.
   } catch (err) {
     //catch any errors
     console.log("error"); //cout errors
+    res.sendStatus(500, "this aint working bro");
   }
 });
 
 //DELETE route to delete poll
-router.delete("/:id", async (req, res) => {
+router.delete("/:Id", async (req, res) => {
   //create a rout id path
-  const id = Number(req.params.id);
+  const Id = Number(req.params.Id);
   try {
-    const x = await Poll.findByPk(id);
-    console.log(x);
+    const x = await Poll.findByPk(Id);
     await x.destroy(); //promise to delete all the poll info
     res.sendStatus(200); //delete records from the database
   } catch (err) {
@@ -29,13 +36,32 @@ router.delete("/:id", async (req, res) => {
 });
 
 //update polls?
-router.patch("/", async (req, res) => {
+router.patch("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  //const updatedFields = req.body;
+
+  //const up = req.body;
   try {
-    const id = req.params.id;
-    const pO = await poll.findByPk(Id);
-    await pO.save(options);
+    const pollToPatch = await Poll.findByPk(id);
+    // const updatedPoll = { ...pollToPatch };
+
+   // if (updatedFields.title !== undefined)
+     // updatedPoll.title = updatedFields.title;
+    // if (updatedFields)
+
+    //if (updatedFields.options !== undefined)
+    //updatedPoll.options = updatedFields.options;
+
+    await pollToPatch.update({
+      title: req.body.title,
+    });
+
+    await pollToPatch.save();
+    res.sendStatus(200);
   } catch (err) {
+    res.sendStatus(400);
     console.log(err, "error");
   }
 });
 
+module.exports = router;
