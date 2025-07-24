@@ -35,25 +35,18 @@ router.delete("/:Id", async (req, res) => {
   }
 });
 
-//update polls?
 router.patch("/:id", async (req, res) => {
   const id = Number(req.params.id);
-  //const updatedFields = req.body;
 
-  //const up = req.body;
   try {
     const pollToPatch = await Poll.findByPk(id);
-    // const updatedPoll = { ...pollToPatch };
-
-   // if (updatedFields.title !== undefined)
-     // updatedPoll.title = updatedFields.title;
-    // if (updatedFields)
-
-    //if (updatedFields.options !== undefined)
-    //updatedPoll.options = updatedFields.options;
 
     await pollToPatch.update({
       title: req.body.title,
+    });
+
+    await pollToPatch.update({
+      options: req.body.options,
     });
 
     await pollToPatch.save();
