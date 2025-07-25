@@ -26,7 +26,7 @@ const authenticateJWT = (req, res, next) => {
 // Auth0 authentication route
 router.post("/auth0", async (req, res) => {
   try {
-    const { auth0Id, email, username } = req.body;
+    const { auth0Id, email, firstName, lastName } = req.body;
 
     if (!auth0Id) {
       return res.status(400).send({ error: "Auth0 ID is required" });
@@ -51,18 +51,10 @@ router.post("/auth0", async (req, res) => {
       const userData = {
         auth0Id,
         email: email || null,
-        username: username || email?.split("@")[0] || `user_${Date.now()}`, // Use email prefix as username if no username provided
+        firstName,
+        lastName,
         passwordHash: null, // Auth0 users don't have passwords
       };
-
-      // Ensure username is unique
-      let finalUsername = userData.username;
-      let counter = 1;
-      while (await User.findOne({ where: { username: finalUsername } })) {
-        finalUsername = `${userData.username}_${counter}`;
-        counter++;
-      }
-      userData.username = finalUsername;
 
       user = await User.create(userData);
     }
@@ -71,9 +63,11 @@ router.post("/auth0", async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
-        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
         auth0Id: user.auth0Id,
         email: user.email,
+        status: user.status,
       },
       JWT_SECRET,
       { expiresIn: "25h" },
@@ -90,7 +84,8 @@ router.post("/auth0", async (req, res) => {
       message: "Auth0 authentication successful",
       user: {
         id: user.id,
-        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
         auth0Id: user.auth0Id,
         email: user.email,
       },
@@ -143,6 +138,7 @@ router.post("/signup", async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         auth0Id: user.auth0Id,
+        status: user.status,
       },
       JWT_SECRET,
       { expiresIn: "24h" },
@@ -157,7 +153,13 @@ router.post("/signup", async (req, res) => {
 
     res.send({
       message: "User created successfully",
-      user: { id: user.id, username: user.username },
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        status: user.status,
+      },
     });
   } catch (error) {
     console.error("Signup error:", error);
@@ -194,6 +196,7 @@ router.post("/login", async (req, res) => {
         id: user.id,
         email: user.email,
         auth0Id: user.auth0Id,
+        status: user.status,
       },
       JWT_SECRET,
       { expiresIn: "24h" },
@@ -208,7 +211,12 @@ router.post("/login", async (req, res) => {
 
     res.send({
       message: "Login successful",
-      user: { id: user.id, firstName: user.firstName, lastName: user.lastName },
+      user: {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        status: user.status,
+      },
     });
   } catch (error) {
     console.error("Login error:", error);

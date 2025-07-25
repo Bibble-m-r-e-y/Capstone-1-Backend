@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { User, Poll } = require("../database");
+const { authenticateJWT } = require("../auth");
 
 router.get("/", async (req, res) => {
   try {
@@ -54,10 +55,11 @@ router.get("/:id/ballots", async (req, res) => {
     if (!user) {
       return res.status(404).send(null);
     }
-    const ballots = user.polls;
-    if (!ballots) {
+    const polls = user.polls;
+    if (!polls) {
       res.status(404).json({ message: "User has not voted in any polls!" });
     }
+    const ballots = polls.map((poll) => poll.ballotSubmission);
     res.status(200).json(ballots);
   } catch (error) {
     console.error("Error fetching user ballots: ", error);
@@ -65,13 +67,35 @@ router.get("/:id/ballots", async (req, res) => {
   }
 });
 
-router.post("/users", async (req, res) => {
+// This route is a little complex, but essentially will block users 
+router.patch("/status", authenticateJWT, async (req, res) => {
   try {
-    const user = req.body;
-    await User.create(user);
-    res.sendStatus(201);
+    const authUser = req.user;
+    const { status, id } = req.body;
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    if (authUser.status !== "admin" && status === "admin") {
+      return res.status(403).json({ message: "Unauthorized!" });
+    } else if (authUser.id !== user.id && authUser.status !== "admin") {
+      return res.status(403).json({ message: "Forbidden" });
+    } else {
+      user.update({ status: status });
+    }
+    res.status(200).json(user);
   } catch (error) {
-    res.sendStatus(500);
+    console.error("Error updating account status: ", error);
+  }
+});
+
+router.patch("/admin/status", authenticateJWT, async (req, res) => {
+  try {
+    if (req.user.status !== "admin") {
+      return res.status(403).json({ message: "Forbidden!" });
+    }
+  } catch (error) {
+    console.error("Error updating account status: ", error);
   }
 });
 
