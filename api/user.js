@@ -67,7 +67,7 @@ router.get("/:id/ballots", async (req, res) => {
   }
 });
 
-// This route is a little complex, but essentially will block users 
+// This route is a little complex, but essentially will block users
 router.patch("/status", authenticateJWT, async (req, res) => {
   try {
     const authUser = req.user;
@@ -77,25 +77,36 @@ router.patch("/status", authenticateJWT, async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
     if (authUser.status !== "admin" && status === "admin") {
-      return res.status(403).json({ message: "Unauthorized!" });
+      return res.status(403).json({ message: "Forbidden!" });
     } else if (authUser.id !== user.id && authUser.status !== "admin") {
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json({ message: "Forbidden!" });
     } else {
+      if (user.id !== authUser.id && user.status === "admin") {
+        return res
+          .status(403)
+          .json({ message: "You cannot change another Admins privileges!" });
+      }
       user.update({ status: status });
     }
     res.status(200).json(user);
   } catch (error) {
     console.error("Error updating account status: ", error);
+    res.status(500).json({ error: "Failed to change user information!" });
   }
 });
 
-router.patch("/admin/status", authenticateJWT, async (req, res) => {
+router.delete("/delete", authenticateJWT, async (req, res) => {
   try {
-    if (req.user.status !== "admin") {
-      return res.status(403).json({ message: "Forbidden!" });
-    }
+    const userId = Number(req.user.id);
+    const user = await User.findByPk(userId);
+
+    user.destroy();
+    res
+      .status(204)
+      .json({ message: "Your user account was succesfully deleted." });
   } catch (error) {
-    console.error("Error updating account status: ", error);
+    console.error("Error deleting account: ", error);
+    res.status(500).json({ error: "Failed to delete user!" });
   }
 });
 
