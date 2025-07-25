@@ -76,7 +76,7 @@ router.post("/auth0", async (req, res) => {
         email: user.email,
       },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "25h" },
     );
 
     res.cookie("token", token, {
@@ -104,40 +104,48 @@ router.post("/auth0", async (req, res) => {
 // Signup route
 router.post("/signup", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
 
-    if (!username || !password) {
-      return res
-        .status(400)
-        .send({ error: "Username and password are required" });
+    if (!email || !password || !firstName || !lastName) {
+      return res.status(400).send({
+        error: "Email, password, first name, and last name are required",
+      });
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       return res
         .status(400)
-        .send({ error: "Password must be at least 6 characters long" });
+        .send({ error: "Password must be at least 7 characters long" });
     }
 
     // Check if user already exists
-    const existingUser = await User.findOne({ where: { username } });
+    const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(409).send({ error: "Username already exists" });
+      return res
+        .status(409)
+        .send({ error: "Email has already been registered!" });
     }
 
     // Create new user
     const passwordHash = User.hashPassword(password);
-    const user = await User.create({ username, passwordHash });
+    const user = await User.create({
+      email,
+      firstName,
+      lastName,
+      passwordHash,
+    });
 
     // Generate JWT token
     const token = jwt.sign(
       {
         id: user.id,
-        username: user.username,
-        auth0Id: user.auth0Id,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
+        auth0Id: user.auth0Id,
       },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
     res.cookie("token", token, {
@@ -160,15 +168,16 @@ router.post("/signup", async (req, res) => {
 // Login route
 router.post("/login", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
-      res.status(400).send({ error: "Username and password are required" });
-      return;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .send({ error: "Email and password are required!" });
     }
 
     // Find user
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({ where: { email } });
     user.checkPassword(password);
     if (!user) {
       return res.status(401).send({ error: "Invalid credentials" });
@@ -183,12 +192,11 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       {
         id: user.id,
-        username: user.username,
-        auth0Id: user.auth0Id,
         email: user.email,
+        auth0Id: user.auth0Id,
       },
       JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "24h" },
     );
 
     res.cookie("token", token, {
@@ -200,7 +208,7 @@ router.post("/login", async (req, res) => {
 
     res.send({
       message: "Login successful",
-      user: { id: user.id, username: user.username },
+      user: { id: user.id, firstName: user.firstName, lastName: user.lastName },
     });
   } catch (error) {
     console.error("Login error:", error);
