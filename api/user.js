@@ -67,7 +67,7 @@ router.get("/:id/ballots", async (req, res) => {
   }
 });
 
-// This route is a little complex, but essentially will block users
+// This route is a little complex, but essentially will block users who are not admins from elevating themselves to admins, and from changing other users status
 router.patch("/status", authenticateJWT, async (req, res) => {
   try {
     const authUser = req.user;
