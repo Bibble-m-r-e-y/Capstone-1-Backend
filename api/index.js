@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const testDbRouter = require("./test-db");
-const pollsRouter = require("./polls");
+
+const userRouter = require("./user");
 
 router.use("/test-db", testDbRouter);
-router.use("/polls", pollsRouter);
+router.use("/users", userRouter);
 
 module.exports = router;
