@@ -3,7 +3,8 @@ const router = express.Router();
 const { Poll, User } = require("../database");
 
 //GRAB THE WHOLE POLL
-//"/:id
+//"/:id is a dymanic parmater and it changes depening on witch poll we want that is one of the many reasons
+//why we use it to extract a sepefic parmater that is dynamic so we can grab that user 
 router.get("/:id", async (req, res) => {
   const pollId = Number(req.params.id); //grab the user id from the url and make into a number
   console.log(pollId);
@@ -40,7 +41,6 @@ router.patch("/:id", async (req, res) => {
 
   try {
     const pollToPatch = await Poll.findByPk(id);
-
     await pollToPatch.update({
       title: req.body.title,
     });
@@ -52,9 +52,11 @@ router.patch("/:id", async (req, res) => {
     await pollToPatch.save();
     res.sendStatus(200);
   } catch (err) {
-    res.sendStatus(400);
+    res.sendStatus(404);
     console.log(err, "error");
   }
 });
+
+
 
 module.exports = router;

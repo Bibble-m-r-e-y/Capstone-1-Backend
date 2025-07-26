@@ -13,4 +13,5 @@ module.exports = {
   Poll,
   User,
   BallotSubmission,
+
 };
