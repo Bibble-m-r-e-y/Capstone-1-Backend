@@ -30,6 +30,7 @@ const Poll = db.define("poll", {
   filter: {
     type: DataTypes.ARRAY(DataTypes.INTEGER),
     allowNull: false,
+    defaultValue: [],
   },
 
   sumOfVotes: {
