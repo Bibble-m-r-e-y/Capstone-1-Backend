@@ -66,7 +66,7 @@ router.post("/", async (req, res) => {
     const { title, description, options } = req.body;
     const storeClientData = req.body;
 
-    if (!title || !description || !options.length < 2) {
+    if (!title || !description || !options || !options.length < 2) {
       res.sendStatus(400);
     }
     const createNewPoll = await Poll.create(storeClientData); // create a new poll and pass on the user info
