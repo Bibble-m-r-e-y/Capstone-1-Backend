@@ -17,19 +17,20 @@ const { Poll, User, BallotSubmission } = require("../database");
 //   }
 // })
 
-
-
-// router.patch("/id", async (req, res) => {
-//   try {
-//     const dymanic = Number(req.params.id);
-//     const change = await User.findByPk(dymanic, { include: Poll });
-//     await change.ballotSubmission.update({
-//       ranking: req.body.ranking,
-//     });
-//   } catch (err) {
-//     console.error(err, "no good");
-//   }
-// });
+router.patch("/id", async (req, res) => {
+  try {
+    const dymanic = Number(req.params.id);
+    const change = await User.findByPk(dymanic, { Where: Poll });
+    await change.ballotSubmission.update({
+      ranking: req.body.ranking,
+    
+    });
+res.sendStatus(400).json({})
+  } catch (err) {
+    console.error(err,"no good");
+    res.sendStatus(400);
+  }
+});
 
 router.delete("/:id", async (req, res) => {
   const userID = req.params.id;
@@ -42,7 +43,6 @@ router.delete("/:id", async (req, res) => {
     console.log(err, "error");
     res.sendStatus(400);
   }
-
 });
 
 module.exports = router;
